@@ -18,11 +18,12 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 Import-Module "$scriptDir\MsiInstall.psm1"
 Import-Module "$scriptDir\FirewallCtrl.psm1"
 Import-Module "$scriptDir\RegisterEdgeUI.psm1"
+Import-Module "$scriptDir\CloseWindowsUpdate.psm1"
 
 Write-Output "===================================================================="
 Write-Output "WhaleRider SetUp v1.0`n"
 
-# 安装nodejs
+# 安装nodejs msi
 Install-Msi -MsiPath "$scriptDir\files\node.msi"
 
 # 关闭防火墙
@@ -31,4 +32,10 @@ Update-Firewall -Enabled $false
 # 修改注册EdgeUI注册表，关闭滑动
 Register-EdgeUI
 
+# 修改注册表关闭Windows自动更新
+Close-AutoUpdate
+
+
+Write-Output "===================================================================="
+Write-Host "Set Up Successfully!`n" -ForegroundColor Green
 Pause
