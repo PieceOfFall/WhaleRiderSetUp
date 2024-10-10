@@ -20,6 +20,7 @@ function Set-IP {
     Set-NetIPInterface -InterfaceIndex $ifIndex -Dhcp Disabled
     # 配置IP,子网掩码,网关
     New-NetIPAddress -InterfaceIndex $ifIndex -IPAddress $IP -PrefixLength 24 -DefaultGateway $Gateway
+
     # 配置DNS
     Set-DnsClientServerAddress -InterfaceIndex $ifIndex -ServerAddresses $Gateway
 }

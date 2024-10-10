@@ -28,7 +28,7 @@ Write-Host "WhaleRider SetUp v1.0`n" -ForegroundColor Yellow
 Write-Host "====================================================================" -ForegroundColor Yellow
 
 $InputIp = Read-Host "Please Input IP (Directly Press Enter If Not Config)"
-if (-not [string]::IsNullOrWhiteSpace($userInput)) {
+if (-not [string]::IsNullOrWhiteSpace($InputIp)) {
     # 配置静态IP
     Set-IP -IP $InputIp
 }
