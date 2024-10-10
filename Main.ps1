@@ -21,13 +21,23 @@ Import-Module "$scriptDir\RegisterEdgeUI.psm1"
 Import-Module "$scriptDir\CloseWindowsUpdate.psm1"
 Import-Module "$scriptDir\ModifyPowerPlan.psm1"
 Import-Module "$scriptDir\ConfigIP.psm1"
+Import-Module "$scriptDir\InstallShutdownTcp.psm1"
 
 Write-Host "====================================================================" -ForegroundColor Yellow
 Write-Host "WhaleRider SetUp v1.0`n" -ForegroundColor Yellow
 Write-Host "====================================================================" -ForegroundColor Yellow
 
+$InputIp = Read-Host "Please Input IP (Directly Press Enter If Not Config)"
+if (-not [string]::IsNullOrWhiteSpace($userInput)) {
+    # 配置静态IP
+    Set-IP -IP $InputIp
+}
+
 # 安装nodejs msi
 Install-Msi -MsiPath "$scriptDir\files\node.msi"
+
+# 安装nssm并配置tcp关机脚本
+Install-ShutdownTcp -FilePath "$scriptDir\files"
 
 # 关闭防火墙
 Update-Firewall -Enabled $false
@@ -35,15 +45,18 @@ Update-Firewall -Enabled $false
 # 修改电源按钮行为
 Update-PowerPlan
 
-# 配置静态IP
-Set-IP -IP 192.168.2.111
-
 # 修改注册EdgeUI注册表，关闭滑动
 Register-EdgeUI
 
 # 修改注册表关闭Windows自动更新
 Close-AutoUpdate
 
+# 前台安装VNC-Server
+. "$scriptDir\files\VNC-Server-6.7.4-Windows.exe"
+Write-Output "Install VNC, Active Code is: VKUPN-MTHHC-UDHGS-UWD76-6N36A"
+
 Write-Output "===================================================================="
 Write-Host "Set Up Successfully!`n" -ForegroundColor Green
+
+
 Pause

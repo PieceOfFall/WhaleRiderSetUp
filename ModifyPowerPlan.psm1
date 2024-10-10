@@ -1,5 +1,3 @@
-
-
 function Update-PowerPlan {
     Write-Output "===================================================================="
     Write-Output "Modify Power Plan"
